@@ -14,7 +14,7 @@ namespace shopRoots.infrastructure.helpers
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<userModel>().ToTable("Users").HasOne(x => x.Address);
+            modelBuilder.Entity<userModel>().ToTable("Users");
             modelBuilder.Entity<AddressModel>().ToTable("Address");
         }
     }
