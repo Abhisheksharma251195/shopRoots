@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using shopRootsAdmin.core.dtos;
 using shopRootsAdmin.core.interfaces;
 using shopRootsAdmin.core.models;
 using System;
@@ -20,23 +22,75 @@ namespace shopRootsAdmin.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IUserService _userSvc;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUserService userSvc)
+        private readonly IMapper _mapper;
+        private readonly IRepository<userModel> _repo;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUserService userSvc , IMapper mapper , IRepository<userModel> repo)
         {
             _logger = logger;
             _userSvc = userSvc;
+            _mapper = mapper;
+            _repo = repo;
         }
 
-        [HttpGet]
-        public async Task<List<userModel>> GetAsync()
+        [HttpGet("getAllUsers")]
+        public async Task<List<userDto>> getAll()
         {
-            var res = new List<userModel>();
+            var res = new List<userDto>();
             try
             {
-                res = (List<userModel>)await _userSvc.getAll();
+                var result = await _repo.GetAll( x=> x.Id==0);
+                res = _mapper.Map<List<userDto>>(result);
+            }
+                 catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        [HttpPost("CreateUser")]
+        public async Task<userDto> CreateUser(userDto User)
+        {
+            var res = new userDto();
+            try
+            {
+              var model = _mapper.Map<userModel>(User);
+              var result = await _repo.Create(model);
+              res =  _mapper.Map<userDto>(result);  
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+            return res;
+        }
 
+        [HttpPost("UpdateUser")]
+        public async Task<userDto> UpdateUser(userModel User)
+        {
+            var res = new userDto();
+            try
+            {
+                var model = _mapper.Map<userModel>(User);
+                var result = await _repo.Update(model);
+                res = _mapper.Map<userDto>(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        [HttpPost("DeleteUser")]
+        public async Task<bool> DeleteUser(int id)
+        {
+            var res = false; 
+            try
+            {
+                res = await _repo.Delete(id);
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             return res;

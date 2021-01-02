@@ -8,7 +8,7 @@ namespace shopRootsAdmin.core.dtos
     {
         public dtoBase() { 
         }
-        public int ID { get; set; }
+        public int Id{ get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public int Deleted { get; set; }

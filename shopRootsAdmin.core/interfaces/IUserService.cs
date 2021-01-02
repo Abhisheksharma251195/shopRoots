@@ -10,7 +10,6 @@ namespace shopRootsAdmin.core.interfaces
     public interface  IUserService
     {
         public Task <IList<userModel>> getAll();
-        public userModel Login();
-
+        public Task <userModel> Login();
     }
 }

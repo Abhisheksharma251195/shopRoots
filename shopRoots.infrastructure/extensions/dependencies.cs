@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using shopRoots.infrastructure.services;
 using shopRootsAdmin.core.interfaces;
+using shopRootsAdmin.core.models;
 
 namespace shopRoots.infrastructure.extensions
 {
@@ -12,6 +13,7 @@ namespace shopRoots.infrastructure.extensions
         public static IServiceCollection AddDependencies(this IServiceCollection service) {
 
             service.AddScoped<IUserService, userService>();
+            //service.AddScoped<IRepository<modelBase>, Repository<modelBase>>();
             return service;
         }
         public static IServiceCollection AddDatabaseDeveloperPageExceptionFilter(this IServiceCollection services) {

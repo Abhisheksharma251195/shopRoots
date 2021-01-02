@@ -6,9 +6,10 @@ namespace shopRootsAdmin.core.models
 {
    public class modelBase
     {
-      public modelBase() { 
-       }
-        public virtual int ID { get; set; }
+      public modelBase() {
+            //UpdatedOn = DateTime.UtcNow();
+      }
+        public virtual int Id { get; set; }
         public virtual DateTime CreatedOn { get; set; }
         public virtual DateTime UpdatedOn { get; set; }
         public virtual int Deleted { get; set; }

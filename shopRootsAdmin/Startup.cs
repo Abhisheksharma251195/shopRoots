@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 using shopRoots.infrastructure.extensions;
 using shopRoots.infrastructure.helpers;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using shopRoots.infrastructure.mappings.autoMapper;
+using shopRootsAdmin.core.interfaces;
+using shopRoots.infrastructure.services;
 
 namespace shopRootsAdmin
 {
@@ -38,13 +42,21 @@ namespace shopRootsAdmin
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "shopRootsAdmin", Version = "v1" });
                 });
-
+                services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+                services.AddScoped(typeof(DbContext), typeof(dbHelper));
                 services.AddDependencies();
                 services.AddDbContext<dbHelper>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
                 //services.AddDatabaseDeveloperPageExceptionFilter();
                 services.AddControllersWithViews();
-            }
+                var mapperConfig = new MapperConfiguration(mc =>
+                {
+                    mc.AddProfile(new autoMapper());
+                });
+
+                IMapper mapper = mapperConfig.CreateMapper();
+                services.AddSingleton(mapper);
+            }   
             catch (Exception ex)
             {
 
