@@ -3,30 +3,35 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using shopRootsAdmin.core.models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
 namespace shopRoots.infrastructure.helpers
 {
    public class dbHelper : DbContext
     {
         public dbHelper(DbContextOptions<dbHelper> options) : base(options) {
-            var test = "";
+            //Configuration.LazyLoadingEnabled = true;
         }
-        public DbSet<userModel> Users { get; set; }
         public DbSet<AddressModel> Addresses { get; set; }
+        public virtual DbSet<userModel> Users { get; set; }
 
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<userModel>(entity =>
             {
-                entity.ToTable("Users");
-                entity.HasKey(x => x.Id);
-                //entity.HasMany(a => a.Address);
-
+                //entity.ToTable("Users");
             });
+
             modelBuilder.Entity<AddressModel>(entity =>
             {
-                entity.ToTable("Address");
-                entity.HasKey(x => x.Id);
-                //entity.HasOne(x => x.User).WithMany(y => y.Address).HasForeignKey(z => z.UserId);
+                //entity.ToTable("Address");
             });
         }
     }

@@ -14,6 +14,6 @@ namespace shopRootsAdmin.core.dtos
         public  string State { get; set; }
         public  int PinCode { get; set; }
         public  int UserId { get; set; }
-        public  userDto User { get; set; }
+        //public  userDto User { get; set; }
     }
 }

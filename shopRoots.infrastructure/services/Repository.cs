@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace shopRoots.infrastructure.services
 {
@@ -13,16 +15,19 @@ namespace shopRoots.infrastructure.services
 
         private readonly DbContext _context;
         private DbSet<T> _entities;
+        private readonly IDbContextTransaction _transaction;
         string errorMessage = string.Empty;
         public Repository(DbContext context)
         {
             _context = context;
             _entities = context.Set<T>();
+            //_transaction = _context.Database.BeginTransaction();
         }
         public async Task<T> Create(T Model)
         {
             try
             {
+                //_transaction.CreateSavepoint();
                 _context.Add(Model);
                 _context.SaveChanges();
             }
@@ -33,14 +38,21 @@ namespace shopRoots.infrastructure.services
             return Model;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id , bool hardDelete =  false)
         {
             var result  =  false;
             try
             {
                 var Model = _entities.FirstOrDefault(x => x.Id == id);
-                Model.Deleted = id;
-                _entities.Update(Model);
+              
+                if (hardDelete) {
+                    _entities.Remove(Model);
+                }
+                else
+                {
+                    Model.Deleted = id;
+                    _entities.Update(Model);
+                }
                 _context.SaveChanges();
                 result = true;
             }
@@ -52,15 +64,15 @@ namespace shopRoots.infrastructure.services
             return result;
         }
 
-        public async Task<IList<T>> GetAll(Func<T, bool> condition = null, bool includeDeleted = false)
+        public async Task<IList<T>> GetAll (Expression<Func<T, bool>> action = null, bool includeDeleted = false)
         {
             var result = new List<T>();
             try
             {
 
-                if (condition != null)
+                if (action != null)
                 {
-                    result = _entities.Where(x=>x.Deleted==0).ToList();
+                    result = _entities.Where(action).ToList();
                 }
                 else {
                     result = _entities.ToList();
@@ -74,9 +86,9 @@ namespace shopRoots.infrastructure.services
             return result;
         }
 
-        public async Task<T> GetOne(Func<T, bool> condition)
-        {
-            throw new NotImplementedException();
+        public async Task<T> GetOne(Func<T, bool> action, bool includeDeleted = false) {
+            var result =  _entities.Where(action).FirstOrDefault();
+            return  result; 
         }
 
         public async Task<T> Update(T Model)
