@@ -10,7 +10,7 @@ namespace shopRootsAdmin.core.dtos
         }
         public int Id{ get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        //public DateTime UpdatedOn { get; set; }
         public int Deleted { get; set; }
         public string CreatedBy { get; set; }
     }

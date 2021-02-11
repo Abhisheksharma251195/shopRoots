@@ -8,7 +8,7 @@ namespace shopRootsAdmin.core.models
    public partial class userModel : modelBase
     {
         public userModel() {
-
+           
         }
 
          public virtual string Name { get; set; }
@@ -17,6 +17,7 @@ namespace shopRootsAdmin.core.models
          public virtual string Phone { get; set; }
          public virtual byte? UserPassword { get; set; }
          public virtual List<AddressModel> Addresses { get; set; }
+         public virtual int UserType { get; set; }
     }
 }
 

@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using shopRoots.infrastructure.helpers;
+using shopRootsAdmin.core.dtos;
 using shopRootsAdmin.core.interfaces;
 using shopRootsAdmin.core.models;
 using System;
@@ -14,9 +16,24 @@ namespace shopRoots.infrastructure.services
     {
 
         private readonly dbHelper _dbContext;
+        private readonly IRepository<userModel> _userService;
+        private readonly IAddressService _addressService;
+        private readonly IMapper _mapper;
 
-        public userService(dbHelper context) {
-            _dbContext = context; 
+
+
+        public userService(dbHelper context , IRepository<userModel> userService , IAddressService addressService , IMapper mapper) {
+            _dbContext = context;
+            _userService = userService;
+            _addressService = addressService;
+            _mapper = mapper;
+        }
+
+        public async Task<userModel> createUser(createUserDto userModel)
+        {
+            userModel User = _mapper.Map<userModel>(userModel);
+            var newUser = await _userService.Create(User);
+            return newUser;
         }
 
         public async Task<userModel> Login()
@@ -24,7 +41,12 @@ namespace shopRoots.infrastructure.services
             throw new NotImplementedException();
         }
 
-       async Task<IList<userModel>> IUserService.getAll()
+        public Task<userModel> UpdateUser(userDto userModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<IList<userModel>> IUserService.getAll()
         {
                
 

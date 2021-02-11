@@ -11,9 +11,9 @@ namespace shopRoots.infrastructure.extensions
    public static class dependencies
     {
         public static IServiceCollection AddDependencies(this IServiceCollection service) {
-
             service.AddScoped<IUserService, userService>();
-            //service.AddScoped<IRepository<modelBase>, Repository<modelBase>>();
+            service.AddScoped<IAddressService, AddressService>();
+
             return service;
         }
         public static IServiceCollection AddDatabaseDeveloperPageExceptionFilter(this IServiceCollection services) {

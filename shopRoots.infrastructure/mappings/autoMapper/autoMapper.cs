@@ -13,7 +13,8 @@ namespace shopRoots.infrastructure.mappings.autoMapper
             CreateMap<userModel, userDto>().ReverseMap();
             CreateMap<AddressModel, AddressDto>().ReverseMap();
             CreateMap<userModel, userCreateModel>().ReverseMap();
-
+            CreateMap<userModel, createUserDto>().ReverseMap();
+            CreateMap<AddressModel, CreateAddressDto>().ReverseMap();
         }
     }
 }
