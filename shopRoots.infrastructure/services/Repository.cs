@@ -27,7 +27,8 @@ namespace shopRoots.infrastructure.services
         {
             try
             {
-                //_transaction.CreateSavepoint();
+                Model.UpdatedOn = new DateTime();
+                 Model.CreatedOn = new DateTime();
                 _context.Add(Model);
                 _context.SaveChanges();
             }
@@ -95,6 +96,7 @@ namespace shopRoots.infrastructure.services
         {
             try
             {
+                 Model.UpdatedOn = new DateTime();
                 _entities.Update(Model);
                 _context.SaveChanges();
             }
