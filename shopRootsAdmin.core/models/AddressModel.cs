@@ -12,7 +12,6 @@ namespace shopRootsAdmin.core.models
     {
         public AddressModel()
         {
-
         }
         public virtual string? AddressLine1 { get; set; }
         public virtual string? City { get; set; }
