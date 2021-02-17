@@ -40,27 +40,27 @@ namespace shopRootsAdmin.Controllers
                 var result = await _userRepo.GetAll(x => x.Deleted == 0);
                 res = _mapper.Map<List<userDto>>(result);
             }
-                 catch (Exception ex)
+                 catch (Exception )
             {
 
-                throw ex;
+                throw ;
             }
             return res;
         }
 
 
         [HttpGet("getUserById")]
-        public async Task<userDto> getUserById(int id)
+        public  userDto getUserById(int id)
         {
             var res = new userDto();
             try
             {
-                var result = await _userRepo.GetOne(x => x.Id == id);
+                var result =  _userRepo.GetOne(x => x.Id == id);
                 res = _mapper.Map<userDto>(result);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw ex;
+                throw;
             }
             return res;
         }
@@ -75,10 +75,10 @@ namespace shopRootsAdmin.Controllers
                 var result = await _Addressrepo.GetAll(x => x.Deleted == 0);
                 res = _mapper.Map<List<AddressDto>>(result);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
-                throw ex;
+                throw ;
             }
             return res;
         }
@@ -93,9 +93,9 @@ namespace shopRootsAdmin.Controllers
               var result = await _userRepo.Create(model);
               res =  _mapper.Map<userDto>(result);  
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw ex;
+                throw ;
             }
             return res;
         }
@@ -110,9 +110,9 @@ namespace shopRootsAdmin.Controllers
                 var result = await _userRepo.Update(model);
                 res = _mapper.Map<userDto>(result);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw ex;
+                throw ;
             }
             return res;
         }
@@ -124,9 +124,9 @@ namespace shopRootsAdmin.Controllers
             {
                 res = await _userRepo.Delete(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw ;
             }
             return res;
         }

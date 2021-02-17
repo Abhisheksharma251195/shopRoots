@@ -40,9 +40,9 @@ namespace shopRootsAdmin.Controllers
                 var result = await _userSvc.createUser(User);
                 res = _mapper.Map<userDto>(result);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw ex;
+                throw ;
             }
             return res;
         }

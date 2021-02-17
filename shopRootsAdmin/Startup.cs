@@ -57,10 +57,10 @@ namespace shopRootsAdmin
                 IMapper mapper = mapperConfig.CreateMapper();
                 services.AddSingleton(mapper);
             }   
-            catch (Exception ex)
+            catch (Exception )
             {
 
-                throw ex;
+                throw ;
             }
 
            
