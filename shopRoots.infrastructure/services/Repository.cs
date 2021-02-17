@@ -15,13 +15,11 @@ namespace shopRoots.infrastructure.services
 
         private readonly DbContext _context;
         private DbSet<T> _entities;
-        private readonly IDbContextTransaction _transaction;
         string errorMessage = string.Empty;
         public Repository(DbContext context)
         {
             _context = context;
             _entities = context.Set<T>();
-            //_transaction = _context.Database.BeginTransaction();
         }
         public async Task<T> Create(T Model)
         {
@@ -30,8 +28,8 @@ namespace shopRoots.infrastructure.services
                 var currentDateTime = DateTime.Now;
                 Model.UpdatedOn = currentDateTime;
                 Model.CreatedOn = currentDateTime;
-                _context.Add(Model);
-                _context.SaveChanges();
+                await _context.AddAsync(Model);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -55,7 +53,7 @@ namespace shopRoots.infrastructure.services
                     Model.Deleted = id;
                     _entities.Update(Model);
                 }
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
                 result = true;
             }
             catch (Exception ex)
@@ -74,10 +72,10 @@ namespace shopRoots.infrastructure.services
 
                 if (action != null)
                 {
-                    result = _entities.Where(action).ToList();
+                    result = await _entities.Where(action).ToListAsync();
                 }
                 else {
-                    result = _entities.ToList();
+                    result = await _entities.ToListAsync();
                 }
             }
             catch (Exception)
@@ -88,9 +86,10 @@ namespace shopRoots.infrastructure.services
             return result;
         }
 
-        public async Task<T> GetOne(Func<T, bool> action, bool includeDeleted = false) {
-            var result =  _entities.Where(action).FirstOrDefault();
-            return  result; 
+        public T GetOne(Func<T, bool> action, bool includeDeleted = false)
+        {
+            var result = _entities.Where(action).FirstOrDefault();
+            return result;
         }
 
         public async Task<T> Update(T Model)
@@ -99,7 +98,7 @@ namespace shopRoots.infrastructure.services
             {
                  Model.UpdatedOn = DateTime.Now;
                 _entities.Update(Model);
-                _context.SaveChanges();
+                await  _context.SaveChangesAsync();
             }
             catch (Exception)
             {

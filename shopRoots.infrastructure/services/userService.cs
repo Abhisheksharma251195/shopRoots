@@ -39,27 +39,24 @@ namespace shopRoots.infrastructure.services
             return newUser;
         }
 
-        public async Task<userModel> Login()
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<userModel> Login()
+        //{
+        //    throw new NotImplementedException();
+        ////}
 
-        public Task<userModel> UpdateUser(userDto userModel)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<userModel> UpdateUser(userDto userModel)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        async Task<IList<userModel>> IUserService.getAll()
-        {
-               
+        //async Task<IList<userModel>> getAll()
+        //{
 
+        //    //var res = await _dbContext.Users.ToListAsync();
+        //    var result =  _dbContext.Users.Where(x => x.Deleted == 0).ToList();
 
-
-            //var res = await _dbContext.Users.ToListAsync();
-            var result = _dbContext.Users.Where(x => x.Deleted == 0).ToList();
-
-            //_mappper.map<useDto>(result);
-            return result;
-        }
+        //    //_mappper.map<useDto>(result);
+        //    return result;
+        //}
     }
 }

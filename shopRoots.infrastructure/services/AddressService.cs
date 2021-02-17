@@ -24,9 +24,9 @@ namespace shopRoots.infrastructure.services
             return await _addressService.Delete(addressId);
         }
 
-        public async Task<AddressModel> getAddress(int addressId)
+        public  AddressModel getAddress(int addressId)
         {
-            return await _addressService.GetOne(x => x.Id == addressId);
+            return  _addressService.GetOne(x => x.Id == addressId);
         }
 
         public async Task<List<AddressModel>> getAllAddress(List<int> addressIds)
