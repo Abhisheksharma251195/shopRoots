@@ -52,7 +52,7 @@ namespace shopRootsAdmin
                 var mapperConfig = new MapperConfiguration(mc =>
                 {
                     mc.AddProfile(new autoMapper());
-                });
+                }); 
 
                 IMapper mapper = mapperConfig.CreateMapper();
                 services.AddSingleton(mapper);
