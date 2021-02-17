@@ -38,5 +38,3 @@ Go
 ALTER TABLE Address
 ADD addressType varchar(50);
 go
-
-
