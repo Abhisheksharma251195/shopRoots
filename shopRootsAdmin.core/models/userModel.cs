@@ -18,6 +18,8 @@ namespace shopRootsAdmin.core.models
          public virtual byte? UserPassword { get; set; }
          public virtual List<AddressModel> Addresses { get; set; }
          public virtual int UserType { get; set; }
+         public virtual string UserId { get; set; }
+
     }
 }
 

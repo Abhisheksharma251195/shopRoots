@@ -32,6 +32,9 @@ namespace shopRoots.infrastructure.services
         public async Task<userModel> createUser(createUserDto userModel)
         {
             userModel User = _mapper.Map<userModel>(userModel);
+            Guid guid = Guid.NewGuid();
+            User.UserId = guid.ToString();
+            //User.UserId = Guid.NewGuid();
             var newUser = await _userService.Create(User);
             return newUser;
         }

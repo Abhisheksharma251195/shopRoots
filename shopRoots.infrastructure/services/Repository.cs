@@ -27,8 +27,9 @@ namespace shopRoots.infrastructure.services
         {
             try
             {
-                Model.UpdatedOn = new DateTime();
-                 Model.CreatedOn = new DateTime();
+                var currentDateTime = DateTime.Now;
+                Model.UpdatedOn = currentDateTime;
+                Model.CreatedOn = currentDateTime;
                 _context.Add(Model);
                 _context.SaveChanges();
             }
@@ -96,7 +97,7 @@ namespace shopRoots.infrastructure.services
         {
             try
             {
-                 Model.UpdatedOn = new DateTime();
+                 Model.UpdatedOn = DateTime.Now;
                 _entities.Update(Model);
                 _context.SaveChanges();
             }

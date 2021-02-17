@@ -13,6 +13,6 @@ namespace shopRootsAdmin.core.dtos
         public  string State { get; set; }
         public  string addressType { get; set; }
         public int PinCode { get; set; }
-        public  int UserId { get; set; }
+        public  string UserId { get; set; }
     }
 }
