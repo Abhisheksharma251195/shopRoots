@@ -4,8 +4,9 @@ use shoproots12
 Go
 
 
-create table Logs(Id int  IDENTITY(1,1)  PRIMARY KEY,  Name varchar(20) ,
-CreatedOn datetime default  Current_TimeStamp, message varchar(Max)
+create table Logs(Id int  IDENTITY(1,1)  PRIMARY KEY ,
+CreatedOn datetime default  Current_TimeStamp, message varchar(Max) , CreatedBy varchar(50)  default 'Unknown',Deleted int default 0,
+UpdatedOn datetime  default  Current_TimeStamp ,
 ) 
 Go
 
