@@ -64,7 +64,7 @@ namespace shopRoots.infrastructure.services
             return result;
         }
 
-        public async Task<IList<T>> GetAll (Expression<Func<T, bool>> action = null, bool includeDeleted = false)
+        public IList<T> GetAll(Func<T, bool> action = null, bool includeDeleted = false)
         {
             var result = new List<T>();
             try
@@ -72,10 +72,11 @@ namespace shopRoots.infrastructure.services
 
                 if (action != null)
                 {
-                    result = await _entities.Where(action).ToListAsync();
+                    result = _entities.Where(action).Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).ToList();
                 }
-                else {
-                    result = await _entities.ToListAsync();
+                else
+                {
+                    result = _entities.Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).ToList();
                 }
             }
             catch (Exception)
@@ -88,10 +89,10 @@ namespace shopRoots.infrastructure.services
 
         public T GetOne(Func<T, bool> action, bool includeDeleted = false)
         {
-            var result = _entities.Where(action).FirstOrDefault();
+            var result = _entities.Where(action).Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).FirstOrDefault();
             return result;
         }
-
+         
         public async Task<T> Update(T Model)
         {
             try

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace shopRootsAdmin.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
 

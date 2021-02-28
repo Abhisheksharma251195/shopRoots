@@ -16,7 +16,7 @@ namespace shopRoots.infrastructure.helpers
         }
         public DbSet<AddressModel> Addresses { get; set; }
         public virtual DbSet<userModel> Users { get; set; }
-
+        public virtual DbSet<AuthModel> Authentication { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,6 +30,10 @@ namespace shopRoots.infrastructure.helpers
             });
 
             modelBuilder.Entity<AddressModel>(entity =>
+            {
+                //entity.ToTable("Address");
+            });
+            modelBuilder.Entity<AuthModel>(entity =>
             {
                 //entity.ToTable("Address");
             });

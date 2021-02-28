@@ -29,9 +29,9 @@ namespace shopRoots.infrastructure.services
             return  _addressService.GetOne(x => x.Id == addressId);
         }
 
-        public async Task<List<AddressModel>> getAllAddress(List<int> addressIds)
+        public  IList<AddressModel> getAllAddress(List<int> addressIds)
         {
-            return (List<AddressModel>)await _addressService.GetAll(x => addressIds.Contains((int)x.Id));
+            return (List<AddressModel>) _addressService.GetAll(x => addressIds.Contains((int)x.Id));
         }
 
         public async Task<AddressModel> updateAddress(AddressModel userModel)

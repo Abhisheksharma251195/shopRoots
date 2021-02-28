@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace shopRootsAdmin.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
 
@@ -32,12 +32,12 @@ namespace shopRootsAdmin.Controllers
         }
 
         [HttpGet("getAllUsers")]
-        public async Task<List<userDto>> getAll()
+        public  List<userDto> getAll()
         {
             var res = new List<userDto>();
             try
             {
-                var result = await _userRepo.GetAll(x => x.Deleted == 0);
+                var result =  _userRepo.GetAll();
                 res = _mapper.Map<List<userDto>>(result);
             }
                  catch (Exception )
@@ -67,12 +67,12 @@ namespace shopRootsAdmin.Controllers
 
 
         [HttpGet("getAllAddress")]
-        public async Task<List<AddressDto>> getAllAddresses()
+        public List<AddressDto> getAllAddresses()
         {
             var res = new List<AddressDto>();
             try
             {
-                var result = await _Addressrepo.GetAll(x => x.Deleted == 0);
+                var result =  _Addressrepo.GetAll(x => x.Deleted == 0);
                 res = _mapper.Map<List<AddressDto>>(result);
             }
             catch (Exception )

@@ -13,6 +13,8 @@ namespace shopRoots.infrastructure.extensions
         public static IServiceCollection AddDependencies(this IServiceCollection service) {
             service.AddScoped<IUserService, userService>();
             service.AddScoped<IAddressService, AddressService>();
+            service.AddScoped<IAuthentication, AuthenticationService>();
+
 
             return service;
         }

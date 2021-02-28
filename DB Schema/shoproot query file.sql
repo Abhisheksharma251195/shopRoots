@@ -35,6 +35,9 @@ create table Address(Id int  IDENTITY(1,1) CONSTRAINT pk_AddressId PRIMARY KEY, 
 PinCode int, CreatedOn datetime  default  Current_TimeStamp, UpdatedOn datetime  default  Current_TimeStamp, Deleted int default 0, CreatedBy varchar (20) default 'Unknown',UserId int CONSTRAINT fk_UserId foreign key references Users(Id))
 Go
 
+create table authentication (Id int IDENTITY(1,1) CONSTRAINT pk_AuthId PRIMARY KEY ,  token NVARCHAR(500) unique not null , userId varchar(50) not null , CreatedOn datetime default  Current_TimeStamp, 
+UpdatedOn datetime  default  Current_TimeStamp , ExpireOn datetime, Deleted int default 0, CreatedBy varchar(50)  default 'Unknown')
+
 ALTER TABLE Address
 ADD addressType varchar(50);
 go
