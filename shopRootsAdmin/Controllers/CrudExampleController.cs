@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using shopRootsAdmin.core.dtos;
@@ -13,6 +14,7 @@ namespace shopRootsAdmin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class LoginController : ControllerBase
     {
 
@@ -37,10 +39,11 @@ namespace shopRootsAdmin.Controllers
             var res = new List<userDto>();
             try
             {
-                var result =  _userRepo.GetAll();
+                var result =  _userRepo.GetAll().OrderBy(x=> x.CreatedOn) ;
+                result = from s in result orderby s.CreatedOn descending select s; 
                 res = _mapper.Map<List<userDto>>(result);
             }
-                 catch (Exception )
+            catch (Exception )
             {
 
                 throw ;

@@ -43,10 +43,33 @@ namespace shopRootsAdmin
                 services.AddControllers();
                 services.AddSwaggerGen(c =>
                 {
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer",
+                        BearerFormat = "JWT",
+                        In = ParameterLocation.Header,
+                        ////Description = "JWT Authorization header using the Bearer scheme."
+                    });
+
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+               {
+                 {
+                       new OpenApiSecurityScheme
+                         {
+                             Reference = new OpenApiReference
+                             {
+                                 Type = ReferenceType.SecurityScheme,
+                                 Id = "Bearer"
+                             }
+                         },
+                         new string[] {}
+
+                 }
+         });
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "shopRootsAdmin", Version = "v1" });
                 });
-                services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-                services.AddScoped(typeof(DbContext), typeof(dbHelper));
                 services.AddDependencies();
                 services.AddDbContext<dbHelper>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -59,6 +82,14 @@ namespace shopRootsAdmin
 
                 IMapper mapper = mapperConfig.CreateMapper();
                 services.AddSingleton(mapper);
+                // Adding Authentication  
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                });
+
                 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -70,10 +101,11 @@ namespace shopRootsAdmin
                             ValidateIssuerSigningKey = true,
                             ValidIssuer = Configuration["Jwt:Issuer"],
                             ValidAudience = Configuration["Jwt:Issuer"],
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+                            ClockSkew = TimeSpan.Zero
                         };
                     });
-        }
+            }
             catch (Exception)
             {
 
@@ -94,8 +126,9 @@ namespace shopRootsAdmin
             }
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -15,5 +15,6 @@ namespace shopRootsAdmin.core.interfaces
         public Task<T> Update(T Model);
         public Task<T> Create(T Model);
         public Task<bool> Delete(int id, bool hardDelete = false);
+        //public Task<object> SqlQuery(string Query);
     }
 }
