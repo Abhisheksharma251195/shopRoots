@@ -40,7 +40,7 @@ namespace shopRoots.infrastructure.services
                 userProfile.userName = user.Name;
                 userProfile.userEmail = user.Email;
                 authModel.ExpireOn = DateTime.Now.AddMinutes(Convert.ToInt32(Configuration["Jwt:expireTime"]));
-                await _AuthSvc.createToken(authModel);
+                await Task.Run(() => _AuthSvc.createToken(authModel));
             }
             else {
                 throw new Exception(" UserName or Password is incorrect please try again");

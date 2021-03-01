@@ -15,16 +15,16 @@ namespace shopRootsAdmin.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class LoginController : ControllerBase
+    public class CrudController : ControllerBase
     {
 
-        private readonly ILogger<LoginController> _logger;
+        private readonly ILogger<CrudController> _logger;
         private readonly IUserService _userSvc;
         private readonly IMapper _mapper;
         private readonly IRepository<userModel> _userRepo;
         private readonly IRepository<AddressModel> _Addressrepo;
 
-        public LoginController(ILogger<LoginController> logger, IUserService userSvc , IMapper mapper , IRepository<userModel> repo , IRepository<AddressModel> addressRepo)
+        public CrudController(ILogger<CrudController> logger, IUserService userSvc , IMapper mapper , IRepository<userModel> repo , IRepository<AddressModel> addressRepo)
         {
             _logger = logger;
             _userSvc = userSvc;

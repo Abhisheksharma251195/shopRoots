@@ -14,13 +14,12 @@ using System.Threading.Tasks;
 namespace shopRootsAdmin.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userSvc;
         private readonly IMapper _mapper;
-        public UserController(ILogger<LoginController> logger, IUserService userSvc , IMapper mapper , IRepository<userModel> repo , IRepository<AddressModel> addressRepo)
+        public UserController( IUserService userSvc , IMapper mapper , IRepository<userModel> repo , IRepository<AddressModel> addressRepo)
         {
             _userSvc = userSvc;
             _mapper = mapper;

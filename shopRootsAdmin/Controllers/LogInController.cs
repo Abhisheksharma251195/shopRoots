@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using shopRootsAdmin.core.dtos;
 using shopRootsAdmin.core.interfaces;
 using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace shopRootsAdmin.Controllers
 {
@@ -25,20 +26,21 @@ namespace shopRootsAdmin.Controllers
             _loggerSvc = logger;
         }
         [HttpPost("LogIn")]
-        public async Task<UserProfileDto> Login(LogInDto User)
+        [ProducesResponseType(typeof(UserProfileDto) , (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Login(LogInDto User)
         {
             var result = new UserProfileDto();
             try
             { 
                 result = await _LogInSvc.LogIn(User , _configuration);
-                await _loggerSvc.Log(result.userEmail + ":- user Logged In SuccessFully");
+                await Task.Run (() => _loggerSvc.Log("user Logged In SuccessFully : - " + result.userEmail));
+                return Ok(result);   
             }
             catch (Exception ex)
             {
-                await _loggerSvc.Log(ex.Message);
-                throw ex;
+               await Task.Run(() => _loggerSvc.Log(ex.Message));
+               return BadRequest(ex.Message);
             }
-            return result;
         }
     }
 }
