@@ -11,7 +11,7 @@ namespace shopRootsAdmin.core.interfaces
         public Task<AddressModel> createAddress(AddressModel addressModel);
         public Task<AddressModel> updateAddress(AddressModel addressModel);
         public Task<bool> deleteAddress(int addressId);
-        public AddressModel getAddress(int addressId);
-        public IList<AddressModel> getAllAddress(List<int> addressIds);
+        public Task<AddressModel> getAddress(int addressId);
+        public Task<IList<AddressModel>> getAllAddress(List<int> addressIds);
     }
 }

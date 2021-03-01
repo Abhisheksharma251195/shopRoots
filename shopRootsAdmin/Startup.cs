@@ -36,8 +36,6 @@ namespace shopRootsAdmin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             try
             {
                 services.AddControllers();
@@ -51,11 +49,12 @@ namespace shopRootsAdmin
                         BearerFormat = "JWT",
                         In = ParameterLocation.Header,
                         ////Description = "JWT Authorization header using the Bearer scheme."
+                        ////Description = "JWT Authorization headekr using the Bearer scheme."
                     });
 
                     c.AddSecurityRequirement(new OpenApiSecurityRequirement
-               {
-                 {
+                   {
+                     {
                        new OpenApiSecurityScheme
                          {
                              Reference = new OpenApiReference
@@ -66,8 +65,8 @@ namespace shopRootsAdmin
                          },
                          new string[] {}
 
-                 }
-         });
+                   }
+              });
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "shopRootsAdmin", Version = "v1" });
                 });
                 services.AddDependencies();

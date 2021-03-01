@@ -54,7 +54,7 @@ namespace shopRoots.infrastructure.services
                     _entities.Update(Model);
                 }
                await _context.SaveChangesAsync();
-                result = true;
+               result = true;
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@ namespace shopRoots.infrastructure.services
             return result;
         }
 
-        public IList<T> GetAll(Func<T, bool> action = null, bool includeDeleted = false)
+        public async Task<IList<T>> GetAll(Expression<Func<T, bool>> action = null, bool includeDeleted = false)
         {
             var result = new List<T>();
             try
@@ -72,11 +72,12 @@ namespace shopRoots.infrastructure.services
 
                 if (action != null)
                 {
-                    result = _entities.Where(action).Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).ToList();
+                    result = await _entities.Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).Where(action).ToListAsync();
+
                 }
                 else
                 {
-                    result = _entities.Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).ToList();
+                    result = await _entities.Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).ToListAsync();
                 }
             }
             catch (Exception)
@@ -87,9 +88,11 @@ namespace shopRoots.infrastructure.services
             return result;
         }
 
-        public T GetOne(Func<T, bool> action, bool includeDeleted = false)
+        public async Task<T> GetOne(Expression<Func<T, bool>> action, bool includeDeleted = false)
         {
-            var result = _entities.Where(action).Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).FirstOrDefault();
+            var result  = await _entities.Where(x => (x.Deleted == (includeDeleted == true ? x.Id : 0)) || x.Deleted == 0).FirstOrDefaultAsync(action);
+
+            //_entities.Where(action).Where().FirstOrDefault();
             return result;
         }
          

@@ -29,7 +29,7 @@ namespace shopRoots.infrastructure.services
         {
 
             UserProfileDto userProfile = new UserProfileDto();
-            var user = _userSvc.GetOne(x => (x.Phone.Equals(userModel.UserName.Trim())
+            var user = await _userSvc.GetOne(x => (x.Phone.Equals(userModel.UserName.Trim())
             || x.Email.ToLower() == userModel.UserName.ToLower().Trim()) && userModel.password == Encoding.Default.GetString(x.UserPassword));
             if (user != null)
             {

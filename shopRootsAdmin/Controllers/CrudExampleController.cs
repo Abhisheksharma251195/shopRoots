@@ -8,6 +8,7 @@ using shopRootsAdmin.core.models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace shopRootsAdmin.Controllers
@@ -34,13 +35,16 @@ namespace shopRootsAdmin.Controllers
         }
 
         [HttpGet("getAllUsers")]
-        public  List<userDto> getAll()
+        [ProducesResponseType(typeof(List<userDto>),(int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BadRequestResult),(int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(AuthorizationFailure), (int)HttpStatusCode.NonAuthoritativeInformation)]
+        public async Task<IActionResult> GetAll()
         {
             var res = new List<userDto>();
             try
             {
-                var result =  _userRepo.GetAll().OrderBy(x=> x.CreatedOn) ;
-                result = from s in result orderby s.CreatedOn descending select s; 
+                var result = await _userRepo.GetAll();
+                //result = from s in result orderby s.CreatedOn descending select s; 
                 res = _mapper.Map<List<userDto>>(result);
             }
             catch (Exception )
@@ -48,34 +52,34 @@ namespace shopRootsAdmin.Controllers
 
                 throw ;
             }
-            return res;
+            return Ok(res);
         }
 
 
         [HttpGet("getUserById")]
-        public  userDto getUserById(int id)
+        public async Task<IActionResult> getUserById(int id)
         {
             var res = new userDto();
             try
             {
-                var result =  _userRepo.GetOne(x => x.Id == id);
+                var result = await _userRepo.GetOne(x => x.Id == id);
                 res = _mapper.Map<userDto>(result);
             }
             catch (Exception )
             {
                 throw;
             }
-            return res;
+            return Ok(res);
         }
 
 
         [HttpGet("getAllAddress")]
-        public List<AddressDto> getAllAddresses()
+        public async Task<IActionResult> getAllAddresses()
         {
             var res = new List<AddressDto>();
             try
             {
-                var result =  _Addressrepo.GetAll(x => x.Deleted == 0);
+                var result = await _Addressrepo.GetAll(x => x.Deleted == 0);
                 res = _mapper.Map<List<AddressDto>>(result);
             }
             catch (Exception )
@@ -83,11 +87,11 @@ namespace shopRootsAdmin.Controllers
 
                 throw ;
             }
-            return res;
+            return Ok(res);
         }
 
         [HttpPost("CreateUser")]
-        public async Task<userDto> CreateUser(userDto User)
+        public async Task<IActionResult> CreateUser(userDto User)
         {
             var res = new userDto();
             try
@@ -100,11 +104,11 @@ namespace shopRootsAdmin.Controllers
             {
                 throw ;
             }
-            return res;
+            return Ok(res);
         }
 
         [HttpPost("UpdateUser")]
-        public async Task<userDto> UpdateUser(userModel User)
+        public async Task<IActionResult> UpdateUser(userModel User)
         {
             var res = new userDto();
             try
@@ -117,7 +121,7 @@ namespace shopRootsAdmin.Controllers
             {
                 throw ;
             }
-            return res;
+            return Ok(res);
         }
         [HttpDelete("DeleteUser")]
         public async Task<bool> DeleteUser(int id)

@@ -21,7 +21,7 @@ namespace shopRoots.infrastructure.services
         }
         public async Task<string> authenticateUser(string userName , IConfiguration Configuration)
         {
-            var user = _userSvc.GetOne(x => (x.Phone.Equals(userName.Trim()) || x.Email.ToLower() == userName.ToLower().Trim()));
+            var user = await _userSvc.GetOne(x => (x.Phone.Equals(userName.Trim()) || x.Email.ToLower() == userName.ToLower().Trim()));
 
             var token = "";
             if (user != null)
@@ -31,7 +31,7 @@ namespace shopRoots.infrastructure.services
                 authModel.token = token = new JwtSecurityTokenHandler().WriteToken(newToken);
                 authModel.ExpireOn = DateTime.Now.AddMinutes(Convert.ToInt32(Configuration["Jwt:expireTime"]));
                 authModel.userId = user.UserId;
-                await _authSvc.Create(authModel);
+                await Task.Run(() => _authSvc.Create(authModel)) ;
             }
             else {
                 throw new Exception(userName + " User Not Found please check your user");

@@ -24,14 +24,14 @@ namespace shopRoots.infrastructure.services
             return await _addressService.Delete(addressId);
         }
 
-        public  AddressModel getAddress(int addressId)
+        public async Task<AddressModel> getAddress(int addressId)
         {
-            return  _addressService.GetOne(x => x.Id == addressId);
+            return await _addressService.GetOne(x => x.Id == addressId);
         }
 
-        public  IList<AddressModel> getAllAddress(List<int> addressIds)
+        public async Task<IList<AddressModel>> getAllAddress(List<int> addressIds)
         {
-            return (List<AddressModel>) _addressService.GetAll(x => addressIds.Contains((int)x.Id));
+            return (List<AddressModel>)await _addressService.GetAll(x => addressIds.Contains((int)x.Id));
         }
 
         public async Task<AddressModel> updateAddress(AddressModel userModel)

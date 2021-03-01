@@ -14,11 +14,11 @@ namespace shopRoots.infrastructure.services
             _loggerSvc = logger;
         }
 
-        public  Task<logModel> Log(string message)
+        public async Task<logModel> Log(string message)
         {
             var loggerModel = new logModel();
             loggerModel.message = message;
-            return  _loggerSvc.Create(loggerModel);
+            return  await _loggerSvc.Create(loggerModel);
         }
     }
 }
